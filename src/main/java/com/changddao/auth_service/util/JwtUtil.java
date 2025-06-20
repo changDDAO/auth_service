@@ -1,4 +1,4 @@
-package com.changddao.auth_service;
+package com.changddao.auth_service.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
