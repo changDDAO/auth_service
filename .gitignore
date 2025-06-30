@@ -6,6 +6,7 @@ build/
 !**/src/test/**/build/
 
 src/main/resources/application.properties
+docker-db/.env
 
 ### STS ###
 .apt_generated
