@@ -10,3 +10,9 @@ eureka:
 spring:
   profiles:
     active: prod
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://auth-db:5432/auth_db

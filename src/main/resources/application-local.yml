@@ -6,3 +6,10 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: true
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/auth_db

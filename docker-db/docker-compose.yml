@@ -1,9 +1,9 @@
 services:
   user-db:
     image: postgres
-    container_name: user-db
+    container_name: auth-db
     environment:
-      POSTGRES_DB: user_db
+      POSTGRES_DB: auth_db
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
