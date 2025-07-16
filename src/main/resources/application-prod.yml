@@ -15,4 +15,4 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
-    url: jdbc:postgresql://auth-db:5432/auth_db
+    url: jdbc:postgresql://auth-db:5432/postgres

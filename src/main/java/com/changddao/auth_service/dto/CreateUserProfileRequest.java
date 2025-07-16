@@ -1,9 +1,5 @@
 package com.changddao.auth_service.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-
 public record CreateUserProfileRequest(
         Long userId,
         String nickname,
