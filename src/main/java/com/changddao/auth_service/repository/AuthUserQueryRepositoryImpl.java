@@ -1,13 +1,12 @@
 package com.changddao.auth_service.repository;
 
 import com.changddao.auth_service.entity.AuthUser;
-import com.changddao.auth_service.entity.QAuthUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-import static com.changddao.auth_service.entity.QAuthUser.*;
+import static com.changddao.auth_service.entity.QAuthUser.authUser;
 
 @RequiredArgsConstructor
 public class AuthUserQueryRepositoryImpl implements AuthUserQueryRepository{
