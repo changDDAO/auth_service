@@ -23,3 +23,5 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
 
+USER_SERVICE_URL: http://localhost:8082
+

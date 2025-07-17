@@ -1,9 +1,7 @@
 package com.changddao.auth_service.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name="auth_users", uniqueConstraints = {
@@ -11,6 +9,8 @@ import lombok.NoArgsConstructor;
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@AllArgsConstructor
+@Builder
 public class AuthUser extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,7 @@ public class AuthUser extends BaseTimeEntity{
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
+
 
 
 
