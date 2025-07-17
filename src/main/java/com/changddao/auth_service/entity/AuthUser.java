@@ -5,7 +5,8 @@ import lombok.*;
 
 @Entity
 @Table(name="auth_users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
+        @UniqueConstraint(columnNames = {"email"}),
+        @UniqueConstraint(columnNames = {"nickname"}),
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -15,6 +16,9 @@ public class AuthUser extends BaseTimeEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, length = 40, unique = true)
+    private String nickname;
 
     @Column(nullable = false, length = 100, unique = true)
     private String email;

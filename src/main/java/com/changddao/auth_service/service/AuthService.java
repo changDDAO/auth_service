@@ -30,6 +30,7 @@ public class AuthService {
         }
         AuthUser authUser = authUserRepository.save(AuthUser.builder()
                 .email(req.email())
+                .nickname(req.nickname())
                 .password(passwordEncoder.encode(req.password()))
                 .role(Role.USER)
                 .build());
@@ -45,16 +46,16 @@ public class AuthService {
                         req.address().zipcode()
                 )
         );
-        userClient.createUserProfile(profileRequest);
+        //userClient.createUserProfile(profileRequest);
     }
 
     public AuthResponse signin(SignInRequest req) {
-        AuthUser user = authUserRepository.findByEmail(req.email())
-                .orElseThrow(() -> new RuntimeException("이메일 또는 비밀번호 오류"));
+        AuthUser user = authUserRepository.findByEmailOrNickname(req.nickname(), req.email())
+                .orElseThrow(() -> new RuntimeException("이메일 또는 닉네임 오류"));
         if(!passwordEncoder.matches(req.password(), user.getPassword())){
             throw new RuntimeException("이메일 또는 비밀번호 오류");
         }
         String token = jwtUtil.generateToken(user.getId().toString());
-        return new AuthResponse(user.getId(), user.getEmail(), token);
+        return new AuthResponse(user.getId(), user.getEmail(),user.getNickname(), token);
     }
 }

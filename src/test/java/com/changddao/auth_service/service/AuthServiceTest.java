@@ -70,7 +70,7 @@ class AuthServiceTest {
                 .role(Role.USER)
                 .build());
     //when
-        SignInRequest request = new SignInRequest("signin@example.com", "pass1234");
+        SignInRequest request = new SignInRequest("changddao","signin@example.com", "pass1234");
         AuthResponse response = authService.signin(request);
         //then
         assertThat(response.email()).isEqualTo("signin@example.com");
