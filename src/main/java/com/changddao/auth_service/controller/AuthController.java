@@ -22,7 +22,7 @@ import java.util.Map;
 @Slf4j
 public class AuthController {
     private final AuthService authService;
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/signup")
     public ResponseEntity<Void> signup(@RequestBody @Valid SignUpRequest request) {
