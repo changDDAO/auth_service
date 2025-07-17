@@ -1,6 +1,6 @@
 package com.changddao.auth_service.dto;
 
-public record CreateUserProfileRequest(
+public record SignUpRequest(
         Long userId,
         String nickname,
         String name,

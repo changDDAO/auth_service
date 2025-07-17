@@ -1,6 +1,5 @@
 package com.changddao.auth_service.controller;
 
-import com.changddao.auth_service.dto.LoginRequest;
 import com.changddao.auth_service.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
