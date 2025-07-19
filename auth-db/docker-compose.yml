@@ -1,5 +1,5 @@
 services:
-  user-db:
+  auth-db:
     image: postgres
     container_name: auth-db
     environment:

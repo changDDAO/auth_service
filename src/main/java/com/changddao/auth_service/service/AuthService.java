@@ -46,7 +46,7 @@ public class AuthService {
                         req.address().zipcode()
                 )
         );
-        //userClient.createUserProfile(profileRequest);
+        userClient.createUserProfile(profileRequest);
     }
 
     public AuthResponse signin(SignInRequest req) {
