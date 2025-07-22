@@ -6,4 +6,4 @@ COPY ${JAR_FILE} auth_service.jar
 
 EXPOSE 8081
 
-ENTRYPOINT ["java","-Dspring.profiles.active=prod", "-jar", "/auth_service.jar"]
+ENTRYPOINT ["java","-Duser.timezone=Asia/Seoul","-Dspring.profiles.active=prod", "-jar", "/auth_service.jar"]

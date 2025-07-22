@@ -6,7 +6,6 @@ eureka:
     fetch-registry: true
   instance:
     prefer-ip-address: true
-
 spring:
 
   datasource:
@@ -23,5 +22,7 @@ spring:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
+  application:
+    name: auth-service
 
 USER_SERVICE_URL: http://user-service:8082
