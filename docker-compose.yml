@@ -1,19 +1,16 @@
 services:
   auth-service:
 
-    image: changddao/auth-service:latest
     container_name: auth-service
-
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8081:8081"
     networks:
       - msa-net
     environment:
       - TZ: Asia/Seoul
-      - JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      - DB_USERNAME: ${DB_USERNAME}
-      - DB_PASSWORD: ${DB_PASSWORD}
-      - SPRING_PROFILES_ACTIVE=prod
 
 
 networks:
