@@ -7,6 +7,7 @@ import com.changddao.auth_service.dto.SignInRequest;
 import com.changddao.auth_service.dto.SignUpRequest;
 import com.changddao.auth_service.entity.AuthUser;
 import com.changddao.auth_service.entity.Role;
+import com.changddao.auth_service.exception.DuplicatedEmailException;
 import com.changddao.auth_service.repository.AuthUserRepository;
 import com.changddao.auth_service.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class AuthService {
     @Transactional
     public void signup(SignUpRequest req) {
         if (authUserRepository.existsByEmail(req.email())) {
-            throw new IllegalStateException("이미 가입된 이메일입니다.");
+            throw new DuplicatedEmailException("이미 가입된 이메일입니다.");
         }
         AuthUser authUser = authUserRepository.save(AuthUser.builder()
                 .email(req.email())
