@@ -2,6 +2,7 @@ package com.changddao.auth_service.advice;
 
 import com.changddao.auth_service.dto.response.Result;
 import com.changddao.auth_service.exception.DuplicatedEmailException;
+import com.changddao.auth_service.exception.FileUploadException;
 import com.changddao.auth_service.service.ResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public Result duplicatedEmail(DuplicatedEmailException exception){
         return responseService.handleFailResult(409, exception.getMessage());
+    }
+
+    @ExceptionHandler(FileUploadException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Result failUploadFile(FileUploadException exception){
+        return responseService.handleFailResult(500, exception.getMessage());
     }
 
 }
