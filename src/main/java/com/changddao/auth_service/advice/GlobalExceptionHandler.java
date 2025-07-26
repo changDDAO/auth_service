@@ -17,8 +17,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result defaultException() {
-        return responseService.handleFailResult(500, "오류가 발생 하였습니다.");
+    public Result defaultException(Exception e) {
+        return responseService.handleFailResult(500, e.getMessage());
     }
 
     @ExceptionHandler(DuplicatedEmailException.class)

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -25,26 +26,26 @@ public class AuthService {
 
 
     @Transactional
-    public void signup(SignUpRequest req) {
-        if (authUserRepository.existsByEmail(req.email())) {
+    public void signup(SignUpRequest req, MultipartFile image) {
+        if (authUserRepository.existsByEmail(req.getEmail())) {
             throw new DuplicatedEmailException("이미 가입된 이메일입니다.");
         }
         AuthUser authUser = authUserRepository.save(AuthUser.builder()
-                .email(req.email())
-                .nickname(req.nickname())
-                .password(passwordEncoder.encode(req.password()))
+                .email(req.getEmail())
+                .nickname(req.getNickname())
+                .password(passwordEncoder.encode(req.getPassword()))
                 .role(Role.USER)
                 .build());
 
         CreateUserProfileRequest profileRequest = new CreateUserProfileRequest(
                 authUser.getId(),
-                req.nickname(),
-                req.name(),
-                req.phoneNumber(),
+                req.getNickname(),
+                req.getName(),
+                req.getPhoneNumber(),
                 new CreateUserProfileRequest.AddressDto(
-                        req.address().city(),
-                        req.address().street(),
-                        req.address().zipcode()
+                        req.getAddress().getCity(),
+                        req.getAddress().getStreet(),
+                        req.getAddress().getZipcode()
                 )
         );
         userClient.createUserProfile(profileRequest);
