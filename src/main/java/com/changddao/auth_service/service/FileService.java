@@ -3,16 +3,12 @@ package com.changddao.auth_service.service;
 import com.changddao.auth_service.exception.FileUploadException;
 import com.changddao.auth_service.exception.SearchFileException;
 import io.minio.*;
-import io.minio.errors.*;
 import io.minio.http.Method;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 @Service
