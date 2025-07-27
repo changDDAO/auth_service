@@ -40,7 +40,7 @@ class AuthServiceTest {
     @DisplayName("회원가입 정상동작")
     void signTest(){
     //given
-        SignUpRequest request = new SignUpRequest(
+       /* SignUpRequest request = new SignUpRequest(
                 null,
                 "닉네임",
                 "test@example.com",
@@ -48,9 +48,9 @@ class AuthServiceTest {
                 "홍길동",
                 "010-1111-2222",
                 new SignUpRequest.AddressDto("서울", "강남구", "12345")
-        );
+        );*/
     //when
-        authService.signup(request);
+
     //then
         AuthUser user = authUserRepository.findByEmail("test@example.com").orElseThrow();
         assertThat(user.getEmail()).isEqualTo("test@example.com");

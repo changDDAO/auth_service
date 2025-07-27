@@ -9,12 +9,9 @@ import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -24,11 +21,13 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
 
-    @PostMapping("/signup")
-    public ResponseEntity<Void> signup(@RequestBody @Valid SignUpRequest request) {
-        authService.signup(request);
+
+    @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> signup(@ModelAttribute @Valid SignUpRequest request) {
+        authService.signup(request, request.getImage());
         return ResponseEntity.ok().build();
     }
+
 
     @PostMapping("/signin")
     public ResponseEntity<AuthResponse> signin(@RequestBody @Valid SignInRequest request) {

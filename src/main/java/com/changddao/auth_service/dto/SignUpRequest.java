@@ -3,25 +3,50 @@ package com.changddao.auth_service.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
-public record SignUpRequest(
-        Long userId,
+@Getter
+@NoArgsConstructor
+@Setter
+public class SignUpRequest {
+
+    private Long userId;
+
+    @NotBlank
+    private String nickname;
+
+    @Email
+    private String email;
+
+    @NotBlank
+    private String name;
+
+    @NotBlank
+    @Size(min = 8, max = 100)
+    private String password;
+
+    @NotBlank
+    private String phoneNumber;
+
+    private AddressDto address;
+
+    private MultipartFile image; // ✅ 이미지 포함
+
+    @Getter
+    @NoArgsConstructor
+    @Setter
+    public static class AddressDto {
+
         @NotBlank
-        String nickname,
-        @Email
-        String email,
+        private String city;
+
         @NotBlank
-        String name,
+        private String street;
+
         @NotBlank
-        @Size(min = 8, max = 100)
-        String password,
-        @NotBlank
-        String phoneNumber,
-        AddressDto address
-){
-    public record AddressDto(
-         @NotBlank String city,
-         @NotBlank String street,
-         @NotBlank  String zipcode
-    ){}
+        private String zipcode;
+    }
 }
