@@ -22,6 +22,7 @@ public class AuthService {
     private final AuthUserRepository authUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final FileService fileService;
     private final UserClient userClient;
 
 
@@ -30,6 +31,8 @@ public class AuthService {
         if (authUserRepository.existsByEmail(req.getEmail())) {
             throw new DuplicatedEmailException("이미 가입된 이메일입니다.");
         }
+
+        // 1. AuthUser 저장
         AuthUser authUser = authUserRepository.save(AuthUser.builder()
                 .email(req.getEmail())
                 .nickname(req.getNickname())
@@ -37,6 +40,14 @@ public class AuthService {
                 .role(Role.USER)
                 .build());
 
+        // 2. 이미지 업로드 및 URL 생성
+        String imageUrl = null;
+        if (image != null && !image.isEmpty()) {
+            String objectName = fileService.uploadFileToSubdirectory(image, "user-profile");
+            imageUrl = fileService.getFileUrl(objectName); // presigned URL (1시간 유효)
+        }
+
+        // 3. User-Service로 프로필 생성 요청
         CreateUserProfileRequest profileRequest = new CreateUserProfileRequest(
                 authUser.getId(),
                 req.getNickname(),
@@ -46,8 +57,10 @@ public class AuthService {
                         req.getAddress().getCity(),
                         req.getAddress().getStreet(),
                         req.getAddress().getZipcode()
-                )
+                ),
+                imageUrl // ✅ 이미지 URL 포함
         );
+
         userClient.createUserProfile(profileRequest);
     }
 

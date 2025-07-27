@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/auth")
@@ -22,15 +21,10 @@ public class AuthController {
     private final AuthService authService;
     private final JwtUtil jwtUtil;
 
+
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> signup(@ModelAttribute @Valid SignUpRequest request) {
-        log.info("nickname: {}", request.getNickname());
-        log.info("city: {}", request.getAddress().getCity());
-
-        if (request.getImage() != null) {
-            log.info("image name: {}", request.getImage().getOriginalFilename());
-        }
-
+        authService.signup(request, request.getImage());
         return ResponseEntity.ok().build();
     }
 

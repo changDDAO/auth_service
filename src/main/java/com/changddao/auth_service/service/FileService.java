@@ -17,6 +17,9 @@ public class FileService {
 
     private final MinioClient minioClient;
 
+    @Value("${MINIO_URL}")
+    private String minioUrl;
+
     @Value("${MINIO_BUCKET}")
     private String bucketName;
 
@@ -67,15 +70,7 @@ public class FileService {
 
     public String getFileUrl(String fileName) {
         try {
-            String url = minioClient.getPresignedObjectUrl(
-                    GetPresignedObjectUrlArgs.builder()
-                            .bucket(bucketName)
-                            .object(fileName)
-                            .method(Method.GET)
-                            .expiry(60 * 60) // 1시간 유효
-                            .build()
-            );
-            return url;
+            return String.format("%s/%s/%s", minioUrl, bucketName, fileName);
         } catch (Exception e) {
             throw new SearchFileException("URL에 따른 파일 가져오기 실패");
         }
