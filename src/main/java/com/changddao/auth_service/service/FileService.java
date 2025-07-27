@@ -17,10 +17,10 @@ public class FileService {
 
     private final MinioClient minioClient;
 
-    @Value("${MINIO_URL}")
+    @Value("${minio.url}")
     private String minioUrl;
 
-    @Value("${MINIO_BUCKET}")
+    @Value("${minio.bucket}")
     private String bucketName;
 
     public String uploadFile(MultipartFile file) {
