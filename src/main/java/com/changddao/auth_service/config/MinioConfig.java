@@ -12,9 +12,9 @@ public class MinioConfig {
     private final String secretKey;
 
     public MinioConfig(
-            @Value("${MINIO_URL}") String url,
-            @Value("${MINIO_USER}") String accessKey,
-            @Value("${MINIO_PASSWORD}") String secretKey
+            @Value("${minio.url}") String url,
+            @Value("${minio.access-key}") String accessKey,
+            @Value("${minio.secret-key}") String secretKey
     ) {
         this.url = url;
         this.accessKey = accessKey;

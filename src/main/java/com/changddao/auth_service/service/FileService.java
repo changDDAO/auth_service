@@ -2,8 +2,10 @@ package com.changddao.auth_service.service;
 
 import com.changddao.auth_service.exception.FileUploadException;
 import com.changddao.auth_service.exception.SearchFileException;
-import io.minio.*;
-import io.minio.http.Method;
+import io.minio.BucketExistsArgs;
+import io.minio.MakeBucketArgs;
+import io.minio.MinioClient;
+import io.minio.PutObjectArgs;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,10 @@ public class FileService {
 
     private final MinioClient minioClient;
 
-    @Value("${MINIO_URL}")
+    @Value("${minio.url}")
     private String minioUrl;
 
-    @Value("${MINIO_BUCKET}")
+    @Value("${minio.bucket}")
     private String bucketName;
 
     public String uploadFile(MultipartFile file) {
