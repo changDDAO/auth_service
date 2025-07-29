@@ -3,7 +3,10 @@ package com.changddao.auth_service.controller;
 import com.changddao.auth_service.dto.AuthResponse;
 import com.changddao.auth_service.dto.SignInRequest;
 import com.changddao.auth_service.dto.SignUpRequest;
+import com.changddao.auth_service.dto.response.Result;
+import com.changddao.auth_service.dto.response.SingleResult;
 import com.changddao.auth_service.service.AuthService;
+import com.changddao.auth_service.service.ResponseService;
 import com.changddao.auth_service.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
@@ -18,32 +21,34 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
+    private final ResponseService responseService;
     private final AuthService authService;
     private final JwtUtil jwtUtil;
 
 
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> signup(@ModelAttribute @Valid SignUpRequest request) {
+    public Result signup(@ModelAttribute @Valid SignUpRequest request) {
         authService.signup(request, request.getImage());
-        return ResponseEntity.ok().build();
+        return responseService.handleSuccessResult();
     }
 
 
     @PostMapping("/signin")
-    public ResponseEntity<AuthResponse> signin(@RequestBody @Valid SignInRequest request) {
-        return ResponseEntity.ok(authService.signin(request));
+    public SingleResult<AuthResponse> signin(@RequestBody @Valid SignInRequest request) {
+        return responseService.handleSingleResult(authService.signin(request));
     }
 
     @GetMapping("/me")
-    public ResponseEntity<Claims> me(@RequestHeader("Authorization") String token) {
+    public SingleResult<Claims> me(@RequestHeader("Authorization") String token) {
         Claims claims = jwtUtil.parseClaims(token.replace("Bearer ", ""));
-        return ResponseEntity.ok(claims);
+        return responseService.handleSingleResult(claims);
     }
 
     @PostMapping("/validate")
-    public ResponseEntity<Boolean> validate(@RequestBody String token) {
+    public Result validate(@RequestBody String token) {
         boolean valid = jwtUtil.validateToken(token);
-        return ResponseEntity.ok(valid);
+        return valid ? responseService.handleSuccessResult()
+                : responseService.handleFailResult(401, "본인인증이 필요합니다.");
     }
 
 }
