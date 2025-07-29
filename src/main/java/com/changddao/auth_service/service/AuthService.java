@@ -7,6 +7,7 @@ import com.changddao.auth_service.dto.SignInRequest;
 import com.changddao.auth_service.dto.SignUpRequest;
 import com.changddao.auth_service.entity.AuthUser;
 import com.changddao.auth_service.entity.Role;
+import com.changddao.auth_service.exception.AccountInfoException;
 import com.changddao.auth_service.exception.DuplicatedEmailException;
 import com.changddao.auth_service.repository.AuthUserRepository;
 import com.changddao.auth_service.util.JwtUtil;
@@ -66,9 +67,9 @@ public class AuthService {
 
     public AuthResponse signin(SignInRequest req) {
         AuthUser user = authUserRepository.findByEmailOrNickname(req.nickname(), req.email())
-                .orElseThrow(() -> new RuntimeException("이메일 또는 닉네임 오류"));
+                .orElseThrow(() -> new AccountInfoException("이메일 또는 닉네임 오류입니다."));
         if(!passwordEncoder.matches(req.password(), user.getPassword())){
-            throw new RuntimeException("이메일 또는 비밀번호 오류");
+            throw new AccountInfoException("비밀번호 오류입니다.");
         }
         String token = jwtUtil.generateToken(user.getId().toString());
         return new AuthResponse(user.getId(), user.getEmail(),user.getNickname(), token);
