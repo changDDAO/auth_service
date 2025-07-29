@@ -1,6 +1,7 @@
 package com.changddao.auth_service.advice;
 
 import com.changddao.auth_service.dto.response.Result;
+import com.changddao.auth_service.exception.AccountInfoException;
 import com.changddao.auth_service.exception.DuplicatedEmailException;
 import com.changddao.auth_service.exception.FileUploadException;
 import com.changddao.auth_service.service.ResponseService;
@@ -31,6 +32,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result failUploadFile(FileUploadException exception){
         return responseService.handleFailResult(500, exception.getMessage());
+    }
+
+    @ExceptionHandler(AccountInfoException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Result failLogin(AccountInfoException exception){
+        return responseService.handleFailResult(400, exception.getMessage());
     }
 
 }
