@@ -5,6 +5,7 @@ import com.changddao.auth_service.dto.AuthResponse;
 import com.changddao.auth_service.dto.CreateUserProfileRequest;
 import com.changddao.auth_service.dto.SignInRequest;
 import com.changddao.auth_service.dto.SignUpRequest;
+import com.changddao.auth_service.dto.kafka.UserDeletedEvent;
 import com.changddao.auth_service.entity.AuthUser;
 import com.changddao.auth_service.entity.Role;
 import com.changddao.auth_service.exception.AccountInfoException;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class AuthService {
     private final AuthUserRepository authUserRepository;
+    private final KafkaUserProducer kafkaUserProducer;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final FileService fileService;
@@ -64,7 +66,7 @@ public class AuthService {
 
         userClient.createUserProfile(profileRequest);
     }
-
+    @Transactional
     public AuthResponse signin(SignInRequest req) {
         AuthUser user = authUserRepository.findByEmailOrNickname(req.nickname(), req.email())
                 .orElseThrow(() -> new AccountInfoException("이메일 또는 닉네임 오류입니다."));
@@ -74,4 +76,20 @@ public class AuthService {
         String token = jwtUtil.generateToken(user.getId().toString());
         return new AuthResponse(user.getId(), user.getEmail(),user.getNickname(), token);
     }
+
+    @Transactional
+    public void deleteAccount(Long userId) {
+        AuthUser user = authUserRepository.findById(userId)
+                .orElseThrow(() -> new AccountInfoException("해당 사용자를 찾을 수 없습니다."));
+        authUserRepository.delete(user);
+
+        //Kafka 이벤트 전송
+        UserDeletedEvent event = new UserDeletedEvent(
+                user.getId(),
+                user.getNickname(),
+                "자진탈퇴"
+        );
+        kafkaUserProducer.sendUserDeletedEvent(event);
+    }
+
 }

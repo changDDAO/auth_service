@@ -37,6 +37,11 @@ public class JwtUtil {
                 .getBody();
     }
 
+    public String getUserIdFromToken(String token) {
+        Claims claims = parseClaims(token);
+        return claims.getSubject();
+    }
+
     public boolean validateToken(String token) {
         try {
             parseClaims(token);
