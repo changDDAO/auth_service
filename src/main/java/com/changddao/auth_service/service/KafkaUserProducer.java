@@ -1,6 +1,6 @@
 package com.changddao.auth_service.service;
 
-import com.changddao.auth_service.dto.kafka.UserDeletedEvent;
+import com.changddao.common.dto.kafka.UserDeletedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
