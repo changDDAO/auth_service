@@ -7,7 +7,6 @@ eureka:
   instance:
     prefer-ip-address: true
 
-
 spring:
   kafka:
     bootstrap-servers: localhost:9092
@@ -20,6 +19,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: com.changddao.common.dto.kafka
+
 
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -35,6 +35,11 @@ spring:
         show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ${REDIS_PASSWORD}
 
 minio:
   url: ${L_MINIO_URL}
